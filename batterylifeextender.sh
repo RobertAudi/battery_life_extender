@@ -51,7 +51,7 @@ fi
 if [ -t 1 ] ; then exec 1>/dev/null ; fi
 if [ -t 2 ] ; then exec 2>/dev/null ; fi
 
-script="display notification \"${message}\" with title \"${title}\" subtitle \"${action} you Mac! Charge is ${charge}%\" sound name \"Sosumi\""
+script="display notification \"${message}\" with title \"${title}\" subtitle \"${action} your Mac! Charge is ${charge}%\" sound name \"Sosumi\""
 
 if [ -n "$TMUX" ] && type -f -t reattach-to-user-namespace >/dev/null ; then
   `type -f -p reattach-to-user-namespace` /usr/bin/osascript -e "${script}" -e "delay 1" &
