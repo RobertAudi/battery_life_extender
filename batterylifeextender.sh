@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ########################################################################
 # BatteryLifeExtender <https://github.com/pirafrank/battery_life_extender>
@@ -27,21 +27,34 @@
 status="$(pmset -g batt | egrep "([0-9]+\%).*" -o)"
 substring1="discharging"
 charge="$(cut -d '%' -f 1 <<< "$status")"
+title="BatteryLifeExtender"
+message=""
+action=""
 
 if [ "${status/$substring1}" = "$status" ] ; then
-  #echo "charging..."
-  if (( "$charge" >= 80 )) ; then
-     # notify
-     thescript='display notification "You can now unplug the power cord to extend the overall battery life." with title "BatteryLifeExtender" subtitle '
-     the2part="\"Unplug your Mac! Charge is ${charge}%\""
-     /usr/bin/osascript -e "${thescript}${the2part}"
+  if [ "$charge" -ge 80 ] ; then
+    message="You can now unplug the power cord to extend the overall battery life."
+    action="Unplug"
+  else
+    exit 0
   fi
 else
-  #echo "discharging..."
-  if (( "$charge" <= 40 )) ; then
-     # notify
-     thescript='display notification "You should plug your Mac to a power outlet to extend the overall battery life." with title "BatteryLifeExtender" subtitle '
-     the2part="\"Plug you Mac! Charge is ${charge}%\""
-     /usr/bin/osascript -e "${thescript}${the2part}"
+  if [ "$charge" -le 40 ] ; then
+    message="You should plug your Mac to a power outlet to extend the overall battery life."
+    action="Plug"
+  else
+    exit 0
   fi
+fi
+
+# Hide ALL output including background job info
+if [ -t 1 ] ; then exec 1>/dev/null ; fi
+if [ -t 2 ] ; then exec 2>/dev/null ; fi
+
+script="display notification \"${message}\" with title \"${title}\" subtitle \"${action} you Mac! Charge is ${charge}%\" sound name \"Sosumi\""
+
+if [ -n "$TMUX" ] && type -f -t reattach-to-user-namespace >/dev/null ; then
+  `type -f -p reattach-to-user-namespace` /usr/bin/osascript -e "${script}" -e "delay 1" &
+else
+  /usr/bin/osascript -e "${script}" -e "delay 1" &
 fi
