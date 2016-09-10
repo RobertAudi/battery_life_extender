@@ -28,7 +28,7 @@
 #
 ########################################################################
 
-if [[ $EUID -ne 0 ]]; then
+if ! sudo -v >/dev/null 2>&1; then
     echo "Sorry, no root priviledges."
     echo "Please rerun using 'sudo'!
     "
@@ -55,8 +55,8 @@ Uninstalling..."
 if [[ -f "${agent_path}" ]]; then
   echo "Launch Agent not found. Skipping."
 else
-  launchctl unload "${agent_path}"
-  rm -rf "${agent_path}"
+  sudo launchctl unload "${agent_path}"
+  sudo rm -rf "${agent_path}"
 fi
 
 if [[ -f "${script_path}" ]]; then

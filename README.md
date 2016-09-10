@@ -39,7 +39,7 @@ Installation
 Open Terminal and type:
 
 ```
-curl https://raw.githubusercontent.com/RobertAudi/battery_life_extender/master/install.sh | sudo bash
+curl https://raw.githubusercontent.com/RobertAudi/battery_life_extender/master/install.sh | bash
 ```
 
 You may need to reboot to fully apply changes (YMMV).
@@ -54,7 +54,7 @@ Uninstall
 Open Terminal and type:
 
 ```
-curl https://raw.githubusercontent.com/RobertAudi/battery_life_extender/master/uninstall.sh | sudo bash
+curl https://raw.githubusercontent.com/RobertAudi/battery_life_extender/master/uninstall.sh | bash
 ```
 
 **Notes**

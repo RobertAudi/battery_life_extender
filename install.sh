@@ -28,7 +28,7 @@
 #
 ########################################################################
 
-if [[ $EUID -ne 0 ]]; then
+if ! sudo -v >/dev/null 2>&1; then
     echo "Sorry, no root priviledges."
     echo "Please rerun using 'sudo'!
     "
@@ -78,8 +78,8 @@ fi
 if [[ -f "${agent_path}" ]]; then
   echo "Launch Agent already exists. Skipping."
 else
-  cp "${agent_name}" "${agent_path}"
-  launchctl load "${agent_path}"
+  sudo cp "${agent_name}" "${agent_path}"
+  sudo launchctl load "${agent_path}"
 fi
 
 echo "
