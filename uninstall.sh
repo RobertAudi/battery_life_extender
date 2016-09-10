@@ -3,10 +3,12 @@
 # Battery Life Extender install script
 
 ########################################################################
-# BatteryLifeExtender <https://github.com/pirafrank/battery_life_extender>
+# BatteryLifeExtender <https://github.com/RobertAudi/battery_life_extender>
+# Forked from <https://github.com/pirafrank/battery_life_extender>
 # Notifies the user when plug or unplug the power cord to extend
 # the overall battery life
 #
+# Copyright (C) 2016 Robert Audi
 # Copyright (C) 2015 Francesco Pira <dev@fpira.com>
 #
 # This file is part of battery_life_extender
@@ -33,6 +35,15 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
+script_prefix="/usr/local/bin"
+agent_prefix="/Library/LaunchAgents"
+
+script_name="batterylifeextender.sh"
+agent_name="me.audii.batterylifeextender.plist"
+
+script_path="$(echo "${script_prefix}/${script_name}" | tr -s "/")"
+agent_path="$(echo "${agent_prefix}/${agent_name}" | tr -s "/")"
+
 echo "#####################
 Welcome to battery life extender uninstall script!
 #####################"
@@ -40,9 +51,19 @@ Welcome to battery life extender uninstall script!
 echo "
 
 Uninstalling..."
-launchctl unload /Library/LaunchAgents/com.fpira.batterylifeextender.plist
-rm -rf /Library/LaunchAgents/com.fpira.batterylifeextender.plist
-rm -rf /usr/local/bin/batterylifeextender
+
+if [[ -f "${agent_path}" ]]; then
+  echo "Launch Agent not found. Skipping."
+else
+  launchctl unload "${agent_path}"
+  rm -rf "${agent_path}"
+fi
+
+if [[ -f "${script_path}" ]]; then
+  echo "Script not found. Skipping."
+else
+  rm -rf "${script_path}"
+fi
 
 echo "
 All done!
