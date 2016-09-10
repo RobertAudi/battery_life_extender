@@ -31,7 +31,7 @@ Tested on Mavericks and Yosemite.
 
 Open Terminal and type:
 
-`curl http://github.com/pirafrank/battery_life_extender/raw/master/install.sh | sudo bash`
+`curl https://raw.githubusercontent.com/RobertAudi/battery_life_extender/master/install.sh | sudo bash`
 
 You may need to reboot to fully apply changes (YMMV).
 
@@ -43,7 +43,7 @@ Root privileges are needed to install the script and Launchd file under system f
 
 Open Terminal and type:
 
-`curl http://github.com/pirafrank/battery_life_extender/raw/master/uninstall.sh | sudo bash`
+`curl https://raw.githubusercontent.com/RobertAudi/battery_life_extender/master/uninstall.sh | sudo bash`
 
 **Notes**
 
